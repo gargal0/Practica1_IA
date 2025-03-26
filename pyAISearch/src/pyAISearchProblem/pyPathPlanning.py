@@ -6,8 +6,8 @@ Created on 7 Mar 2021
 import math
 import copy
 import numpy as np
-from pyAISearchProblem.pyProblem import AISearchProblem
-from pyAISearchProblem.pyState import AISearchState
+from pyProblem import AISearchProblem
+from pyState import AISearchState
 
 class PathPlanningState(AISearchState):
     def __init__(self):
@@ -30,7 +30,8 @@ class PathPlanningState(AISearchState):
     def getLocationY(self): return self.location[1]
     def notWall(self,p):
         v=self.map[p[1],p[0]]
-        return v==0;
+        return v==0
+
     def __str__(self):
         s=" 0123456789\n"
         for row in range(self.map.shape[0]):
