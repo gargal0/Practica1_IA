@@ -4,7 +4,7 @@ Created on 9 Apr 2021
 @author: Francisco Dominguez
 '''
 import copy
-from pyAISearchProblem.pyProblem import AISearchProblem
+from src.pyAISearch.pyAISearchProblem.pyProblem import AISearchProblem
 class AITicTocState(object):
     def __init__(self,startPlayer="X"):
         self.board=[[" "," "," "],

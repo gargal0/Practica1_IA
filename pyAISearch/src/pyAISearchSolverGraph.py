@@ -3,9 +3,9 @@ Created on 21 Feb 2021
 
 @author: Francisco Dominguez
 '''
-from pyAISearchSolver import AISearchSolver
-from pyAISearchCollections.pyAISearchCollection import AISearchCollection
-from pyAISearchNode import AISearchNode
+from src.pyAISearch.pyAISearchSolver import AISearchSolver
+from src.pyAISearch.pyAISearchCollections.pyAISearchCollection import AISearchCollection
+from src.pyAISearch.pyAISearchNode import AISearchNode
 
 class AISearchSolverGraph(AISearchSolver):
     def __init__(self, problem):

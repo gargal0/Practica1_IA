@@ -1,41 +1,59 @@
-import math
-import copy
-import numpy as np
-from collections import deque
-from pyAISearch.src.pyAISearchProblem.pyProblem import AISearchProblem
-from pyAISearch.src.pyAISearchProblem.pyState import AISearchState
+from src.pyAISearch.pyAISearchProblem.pyState import AISearchState
+
 
 class BlockState(AISearchState):
-    def __init__(self, stacks):
-        self.stacks = [deque(stack) for stack in stacks]
+    def __init__(self, stacks, params=None):
+        super().__init__(params)
+        # Convertimos las pilas a tuplas de tuplas para mantener la inmutabilidad
+        self.stacks = tuple(tuple(stack) for stack in stacks)
 
     def getH(self):
-        # Aplanar las pilas actuales
+        """
+        Calcula la heurística: el número de bloques fuera de lugar.
+        """
         current_blocks = tuple(sum([list(stack) for stack in self.stacks], []))
+        goal_order = tuple(sorted(current_blocks))  # El orden correcto de los bloques
 
-        # Aplanar el estado objetivo (goal)
-        goal_blocks = tuple(sorted(sum([list(stack) for stack in self.stacks], [])))
-
-        # Contar los bloques fuera de lugar
         count = 0
-        for current, goal in zip(current_blocks, goal_blocks):
+        for current, goal in zip(current_blocks, goal_order):
             if current != goal:
                 count += 1
         return count
 
-    def __eq__(self, other):
-        return isinstance(other, BlockState) and all(self.stacks[i] == other.stacks[i] for i in range(len(self.stacks)))
+    def moveBlock(self, from_stack, to_stack):
+        """
+        Mueve el bloque de la cima de la pila `from_stack` a la pila `to_stack`.
+        """
+        # Convertimos las pilas a listas para modificarlas
+        new_stacks = [list(stack) for stack in self.stacks]
+
+        # Extraer el bloque de la pila `from_stack` (de la cima)
+        block = new_stacks[from_stack].pop()
+
+        # Agregar el bloque a la pila `to_stack` (a la cima)
+        new_stacks[to_stack].append(block)
+
+        # Convertir las pilas de nuevo a tuplas (porque las pilas deben ser inmutables)
+        self.stacks = tuple(tuple(stack) for stack in new_stacks)
 
     def __hash__(self):
-        return hash(tuple(tuple(stack) for stack in self.stacks))
+        """
+        Devuelve el valor hash del estado (basado en las pilas de bloques).
+        """
+        return hash(self.stacks)
 
-
-    def moveBlock(self, fromst, to):
-        if self.stacks[fromst]:
-            block = self.stacks[fromst].pop()
-            self.stacks[to].append(block)
+    def __eq__(self, other):
+        """
+        Compara dos objetos `BlockState` basándose en el estado de las pilas.
+        """
+        if isinstance(other, BlockState):
+            return self.stacks == other.stacks
+        return False
 
     def __str__(self):
+        """
+        Representación visual del estado usando las pilas.
+        """
         lines = []
         max_height = max(len(stack) for stack in self.stacks)
         for level in range(max_height - 1, -1, -1):
