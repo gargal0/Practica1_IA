@@ -1,6 +1,8 @@
-from pyAISearchSolver import AISearchSolver
-from pyAISearchCollections.pyAISearchCollection import AISearchCollection
-from pyAISearchNode import AISearchNode
+from pyAISearch.src.pyAISearchProblem.pyProblem import AISearchProblem
+from pyAISearch.src.pyAISearchProblem.pyState import AISearchState
+from pyAISearch.src.pyAISearchSolver import AISearchSolver
+from pyAISearch.src.pyAISearchCollections.pyAISearchCollection import AISearchCollection
+from  pyAISearch.src.pyAISearchNode import AISearchNode
 
 class BlockState(AISearchState):
     def __init__(self, state):
