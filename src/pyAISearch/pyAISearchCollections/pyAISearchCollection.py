@@ -17,11 +17,18 @@ class AISearchCollection(object):
     def isEmpty(self):
         return self.nodes.empty()
     def insert(self,node):
-        priority=node.getF()
+        priority = node.getF()
         self.nodes.put((priority,node))
     '''
     Is the node in the collection?
     '''
+
+    def __str__(self): #TODO mal print
+        s = "AISearchCollection:\n"
+        for priority, node in self.nodes.queue:
+            s += f"  (Priority: {priority}, Node: {node})\n"
+        return s
+
     def contains(self,node):
         for (_,n) in self.nodes.queue:
             if n==node:

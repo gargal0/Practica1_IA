@@ -10,20 +10,23 @@ class BlockProblem(AISearchProblem):
     def getStateInit(self):
         return self.stateInit
 
-    def successors(self, state): # TODO
+    def successors(self, state):
         """
         Genera los sucesores de un estado, moviendo bloques entre pilas.
+        Ahora se consideran todos los movimientos posibles entre pilas,
+        excepto mover un bloque a la misma pila de origen.
         """
         succ = []
         for i, stack in enumerate(state.stacks):
-            if stack:  # Si la pila no está vacía
+            if stack:  # Solo se consideran pilas que no estén vacías
                 top = stack[-1]  # Bloque superior de la pila
-                for j in range(1, len(state.stacks)):  # Evitamos mover bloques dentro de la misma pila
-                    if i == j: continue
-                    new_state = BlockState([list(s) for s in state.stacks])  # Copia del estado
+                for j in range(len(state.stacks)):  # Considera todas las pilas (0 a n-1)
+                    if i == j:  # Evita mover el bloque a la misma pila
+                        continue
+                    new_state = BlockState([list(s) for s in state.stacks])  # Crea una copia del estado actual
                     new_state.moveBlock(i, j)  # Mueve el bloque de la pila i a la pila j
                     action = f"Move {top} from {i}→{j}"
-                    succ.append((action, new_state, 1))  # Coste de la acción es 1
+                    succ.append((action, new_state, 1))  # Añade el sucesor con coste 1
         return succ
 
     def isGoal(self, state):

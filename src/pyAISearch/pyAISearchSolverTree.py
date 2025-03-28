@@ -2,6 +2,7 @@ from src.pyAISearch.pyAISearchNode import AISearchNode
 from src.pyAISearch.pyAISearchSolver import AISearchSolver
 from src.pyAISearch.pyAISearchCollections.pyAISearchCollection import AISearchCollection
 
+
 class AISearchSolverTree(AISearchSolver):
     def __init__(self, problem):
         super(AISearchSolverTree, self).__init__(problem)
@@ -33,13 +34,18 @@ class AISearchSolverTree(AISearchSolver):
         node = AISearchNode(state)
         return node
 
-    def search(self):
+    def search(self): #TODO mal print
         self.frontier.insert(self.getInitNode())
         while not self.frontier.isEmpty():
             self.currentNode = self.frontier.selectNode()
             currentState = self.currentNode.getState()
-            print(self.currentNode)
+            # print(self.currentNode) Esto imprime todos los nodos posibles
             if self.problem.isGoal(currentState):
+                self.showPath()
                 return True
             self.expand(self.currentNode)
+        self.showPath()
         return False
+
+    def showPath(self):
+        print(self.frontier)

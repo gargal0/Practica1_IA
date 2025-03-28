@@ -7,17 +7,16 @@ class BlockState(AISearchState):
         # Convertimos las pilas a tuplas de tuplas para mantener la inmutabilidad
         self.stacks = tuple(tuple(stack) for stack in stacks)
 
-    def getH(self): # TODO
+    def getH(self):
         """
-        Calcula la heurística: el número de bloques fuera de lugar.
+        Heurística: número de bloques fuera de lugar (no tiene bloque correcto debajo).
         """
-        current_blocks = tuple(sum([list(stack) for stack in self.stacks], []))
-        goal_order = tuple(sorted(current_blocks))  # El orden correcto de los bloques
-
+        goal_order = tuple(sorted(sum(self.stacks,())))
         count = 0
-        for current, goal in zip(current_blocks, goal_order):
-            if current != goal:
-                count += 1
+        for stack in self.stacks:
+            for i, block in enumerate(stack):
+                if i > 0 and stack[i-1] != block: count += 1
+                if i == 0 and block != goal_order[0]: count += 1
         return count
 
     def moveBlock(self, from_stack, to_stack):
@@ -50,7 +49,7 @@ class BlockState(AISearchState):
             return self.stacks == other.stacks
         return False
 
-    def __str__(self): # TODO
+    def __str__(self):
         """
         Representación visual del estado usando las pilas.
         """
