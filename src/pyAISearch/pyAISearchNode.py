@@ -38,7 +38,7 @@ class AISearchNode(object):
         Devuelve una representación del nodo con su estado, la acción realizada,
         el valor de f*, g y h.
         """
-        return (f"Estado: \n {self.state}\n"
+        return (f"Estado: \n{self.state}\n"
                 f"Acción: {self.action}\n"
                 f"f*: {self.getF()}\n"
                 f"g (coste acumulado): {self.getCostPath()}\n")

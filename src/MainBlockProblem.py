@@ -4,8 +4,8 @@ from src.BlockState import BlockState
 
 if __name__ == "__main__":
     # Estado inicial y objetivo usando tuplas de tuplas
-    init = BlockState([('B', 'C', 'A'), (), ()])
-    goal = BlockState([('A','B','C'), (), ()])
+    init = BlockState([('A', 'C', 'B'), (), ()])
+    goal = BlockState([('C','B','A'), (), ()])
 
     # Definir el problema
     problem = BlockProblem(init, goal)

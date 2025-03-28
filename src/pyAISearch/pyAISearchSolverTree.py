@@ -38,6 +38,7 @@ class AISearchSolverTree(AISearchSolver):
         while not self.frontier.isEmpty():
             self.currentNode = self.frontier.selectNode()
             currentState = self.currentNode.getState()
+            print(self.currentNode)
             if self.problem.isGoal(currentState):
                 return True
             self.expand(self.currentNode)
