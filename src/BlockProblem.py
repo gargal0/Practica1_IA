@@ -10,7 +10,7 @@ class BlockProblem(AISearchProblem):
     def getStateInit(self):
         return self.stateInit
 
-    def successors(self, state): #TODO
+    def successors(self, state): # TODO
         """
         Genera los sucesores de un estado, moviendo bloques entre pilas.
         """
