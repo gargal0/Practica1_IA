@@ -23,8 +23,9 @@ class AISearchNode(object):
     def getAction(self):   return self.action
     def getCostPath(self): return self.costPath
     def getDepth(self):    return self.depth
+
     ''' return f=g+h (cost path + heuristic) '''
-    def getF(self):
+    def getF(self): #TODO
         return self.getCostPath()+self.getState().getH()
     ''' By default two nodes are equal if theirs states are equals '''
     def __eq__(self,n):
