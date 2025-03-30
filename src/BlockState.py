@@ -11,13 +11,27 @@ class BlockState(AISearchState):
         """
         Heurística: número de bloques fuera de lugar (no tiene bloque correcto debajo).
         """
-        goal_order = tuple(sorted(sum(self.stacks,())))
-        count = 0
+        misplaced = 0
+        block_below = {}
+        block_on_table = None
+
         for stack in self.stacks:
-            for i, block in enumerate(stack):
-                if i > 0 and stack[i-1] != block: count += 1
-                if i == 0 and block != goal_order[0]: count += 1
-        return count
+            if not stack:
+                continue
+            block_on_table = stack[0]
+            for i in range(len(stack) - 1):
+                block = stack[i + 1]
+                below = stack[i]
+                block_below[block] = below
+
+        if block_on_table != 'C':
+            misplaced += 1
+        if block_below.get('B') != 'C':
+            misplaced += 1
+        if block_below.get('A') != 'B':
+            misplaced += 1
+
+        return misplaced
 
     def moveBlock(self, from_stack, to_stack):
         """

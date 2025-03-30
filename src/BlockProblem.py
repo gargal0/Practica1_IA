@@ -11,7 +11,7 @@ class BlockProblem(AISearchProblem):
     def getStateInit(self):
         return self.stateInit
 
-    def successors(self, state, frontier):
+    def successors(self, state):
         """
         Genera los sucesores de un estado, moviendo bloques entre pilas.
         Ahora se consideran todos los movimientos posibles entre pilas,
@@ -27,7 +27,7 @@ class BlockProblem(AISearchProblem):
                         continue
                     new_state = BlockState([list(s) for s in state.stacks])  # Crea una copia del estado actual
                     new_state.moveBlock(i, j)  # Mueve el bloque de la pila i a la pila j
-                    if new_state not in frontier:
+                    if new_state != state:
                         if new_state not in seen_states:  # Verifica si el estado ya ha sido generado
                             action = f"Move {top} from {i}→{j}"
                             succ.append((action, new_state, 1))  # Añade el sucesor con coste 1

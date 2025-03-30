@@ -10,13 +10,13 @@ class AISearchSolverTree(AISearchSolver):
         self.explored = set()  # Conjunto de nodos explorados
         self.currentNode = None
 
-    def expand(self, currentNode, seenStates):
+    def expand(self, currentNode):
         """
         Expande el nodo actual generando sus sucesores
         y asegurándonos de que no se repitan nodos ya explorados.
         """
         currentState = currentNode.getState()
-        for action, state, cost in self.problem.successors(currentState, seenStates):
+        for action, state, cost in self.problem.successors(currentState):
             node = AISearchNode()
             node.setState(state)
             node.setFather(currentNode)
@@ -48,11 +48,11 @@ class AISearchSolverTree(AISearchSolver):
             print(self.currentNode) #Esto imprime todos los nodos posibles
             if self.problem.isGoal(currentState):
                 print("\n--------------------------------------------------------------\n")
-                print("########### SOLUTION ##########")
-                print("\n".join(str(state) for state in seen_nodes))
+                #print("########### SOLUTION ##########")
+                #print("\n".join(str(state) for state in seen_nodes))
                 return True
             print("\n------------ Sucessors -----------\n")
-            self.expand(self.currentNode, [state.getState() for state in seen_nodes])
+            self.expand(self.currentNode)
             i += 1
             print("\n--------------------------------------------------------------\n")
 
