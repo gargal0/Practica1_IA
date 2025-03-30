@@ -43,3 +43,7 @@ class AISearchNode(object):
                 f"f*: {self.getF()}\n"
                 f"g (coste acumulado): {self.getCostPath()}\n")
 
+    def __hash__(self):
+        return hash(self.getState())
+
+

@@ -39,14 +39,14 @@ class BlockState(AISearchState):
         """
         Devuelve el valor hash del estado (basado en las pilas de bloques).
         """
-        return hash(self.stacks)
+        return hash(tuple(sorted(self.stacks)))
 
     def __eq__(self, other):
         """
         Compara dos objetos `BlockState` basándose en el estado de las pilas.
         """
         if isinstance(other, BlockState):
-            return self.stacks == other.stacks
+            return tuple(sorted(self.stacks)) == tuple(sorted(other.stacks))
         return False
 
     def __str__(self):

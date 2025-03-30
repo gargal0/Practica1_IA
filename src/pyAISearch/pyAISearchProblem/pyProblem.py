@@ -9,7 +9,7 @@ class AISearchProblem(object):
     def getStateInit(self):
         pass
     #return a collection of action,state,cost
-    def successors(self,state):
+    def successors(self,state,frontier):
         pass
     def isGoal(self,state):
         pass

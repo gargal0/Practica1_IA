@@ -10,19 +10,20 @@ class AISearchSolverTree(AISearchSolver):
         self.explored = set()  # Conjunto de nodos explorados
         self.currentNode = None
 
-    def expand(self, currentNode):
+    def expand(self, currentNode, seenStates):
         """
         Expande el nodo actual generando sus sucesores
         y asegurándonos de que no se repitan nodos ya explorados.
         """
         currentState = currentNode.getState()
-        for action, state, cost in self.problem.successors(currentState):
+        for action, state, cost in self.problem.successors(currentState, seenStates):
             node = AISearchNode()
             node.setState(state)
             node.setFather(currentNode)
             node.setAction(action)
             node.setCostPath(currentNode.getCostPath() + cost)
             node.setDepth(currentNode.getDepth() + 1)
+            print(node)
 
             # Asegurarse de que el estado no haya sido explorado anteriormente
             if state not in self.explored:
@@ -36,16 +37,25 @@ class AISearchSolverTree(AISearchSolver):
 
     def search(self): #TODO mal print
         self.frontier.insert(self.getInitNode())
+        seen_nodes = list()  # Para almacenar los nodos visitados
+        i = 1
         while not self.frontier.isEmpty():
+            print("######################\tSTEP " + str(i) + "\t###############################\n")
             self.currentNode = self.frontier.selectNode()
             currentState = self.currentNode.getState()
-            # print(self.currentNode) Esto imprime todos los nodos posibles
+            seen_nodes.append(self.currentNode)
+            print("------------ Current node -----------\n")
+            print(self.currentNode) #Esto imprime todos los nodos posibles
             if self.problem.isGoal(currentState):
-                self.showPath()
+                print("\n--------------------------------------------------------------\n")
+                print("########### SOLUTION ##########")
+                print("\n".join(str(state) for state in seen_nodes))
                 return True
-            self.expand(self.currentNode)
-        self.showPath()
+            print("\n------------ Sucessors -----------\n")
+            self.expand(self.currentNode, [state.getState() for state in seen_nodes])
+            i += 1
+            print("\n--------------------------------------------------------------\n")
+
         return False
 
-    def showPath(self):
-        print(self.frontier)
+
