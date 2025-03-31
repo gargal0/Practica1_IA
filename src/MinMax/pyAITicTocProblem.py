@@ -44,7 +44,7 @@ class AITicTocState(object):
         if self.board[2][0]==c and self.board[1][1]==c and self.board[0][2]==c :
             return True         
         return False
-    def win(self,c):
+    def win(self,c):#TODO
         return self.winColums(c) or self.winRows(c) or self.winDiags(c)
     def count(self,c):
         counter=0
