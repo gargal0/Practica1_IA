@@ -1,6 +1,5 @@
-from src.BlockState import BlockState
+from src.ProblemA.BlockState import BlockState
 from src.pyAISearch.pyAISearchProblem.pyProblem import AISearchProblem
-from src.pyAISearch.pyAISearchCollections.pyAISearchCollection import AISearchCollection
 
 
 class BlockProblem(AISearchProblem):

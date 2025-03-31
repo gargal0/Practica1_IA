@@ -3,7 +3,7 @@ Created on 25 Feb 2021
 
 @author: Francisco Dominguez
 '''
-from src.pyAISearch.pyAISearchSolver import AISearchSolver
+from src import AISearchSolver
 
 class AIExpectiMax(AISearchSolver):
     def __init__(self, problem):

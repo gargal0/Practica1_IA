@@ -1,7 +1,8 @@
-from src.pyAISearch.pyAISearchSolverTree import AISearchSolverTree
-from src.BlockProblem import BlockProblem
-from src.BlockState import BlockState
+from src.ProblemA.BlockProblem import BlockProblem
+from src.ProblemA.BlockState import BlockState
 import random
+from src.ProblemA.SolverTreeBlockProblem import AISearchSolverTree
+
 
 def generate_random_initial_state():
     # Lista de bloques

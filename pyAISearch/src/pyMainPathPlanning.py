@@ -3,7 +3,7 @@ Created on 7 Mar 2021
 
 @author: Francisco Dominguez
 '''
-from src.pyAISearch.pyAISearchProblem import PathPlanning
+from src import PathPlanning
 from pyAISearchSolverGraph import AISearchSolverGraph
 if __name__ == '__main__':
     pp=PathPlanning()
