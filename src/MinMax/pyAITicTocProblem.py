@@ -1,97 +1,69 @@
-'''
-Created on 9 Apr 2021
-
-@author: Francisco Dominguez
-'''
 import copy
-from src import AISearchProblem
-class AITicTocState(object):
-    def __init__(self,startPlayer="X"):
-        self.board=[[" "," "," "],
-                    [" "," "," "],
-                    [" "," "," "]]
-        self.depth=0
-        self.player=startPlayer #can be "O"
-    def setPiece(self,loc,c):
-        self.board[loc[0]][loc[1]]=c
-    def setPlayer(self,loc):
-        self.setPiece(loc,self.player)
-    def movePlayer(self,pos):
-        newState=copy.deepcopy(self)
-        newState.setPlayer(pos)
-        newState.incDepth()
-        newState.changePlayer()
-        return newState
-    def winColum(self,col,c):
-        if self.board[0][col]==c and self.board[1][col]==c and self.board[2][col]==c :
-            return True         
-        return False
-    def winColums(self,c):
-        for col in range(3):
-            if self.winColum(col,c): return True
-        return False
-    def winRow(self,row,c):
-        if self.board[row][0]==c and self.board[row][1]==c and self.board[row][2]==c :
-            return True         
-        return False
-    def winRows(self,c):
-        for row in range(3):
-            if self.winRow(row,c): return True
-        return False
-    def winDiags(self,c):
-        if self.board[0][0]==c and self.board[1][1]==c and self.board[2][2]==c :
-            return True         
-        if self.board[2][0]==c and self.board[1][1]==c and self.board[0][2]==c :
-            return True         
-        return False
-    def win(self,c):#TODO
-        return self.winColums(c) or self.winRows(c) or self.winDiags(c)
-    def count(self,c):
-        counter=0
-        for row in range(3):
-            for col in range(3):
-                if self.board[row][col]==c:
-                    counter+=1
-        return counter
-    def isFree(self,loc):
-        return self.board[loc[0]][loc[1]]==" "
-    def freeLocations(self):
-        holes=[]
-        for row in range(3):
-            for col in range(3):
-                if self.isFree((row,col)):
-                    holes.append((row,col))
-        return holes
-    def boardFull(self):
-        return self.freeLocations()==[]
-    def changePlayer(self):
-        if self.player=="X": 
-            self.player="O"
-            return
-        self.player="X"
-    def incDepth(self):
-        self.depth+=1
-    def isTerminal(self): #TODO
-        return self.win("X") or self.win("O") or self.boardFull()
-    def utility(self): #TODO
-        if self.win("X"): return  100
-        if self.win("O"): return -100
-        if self.boardFull(): return 0
-    def __str__(self):
-        s=""
-        for row in range(3):
-            for col in range(3):
-                s+=self.board[row][col]
-            s+="\n"
-        s+=str(self.depth)+"---"+self.player
-        return s
-class AITicTocProblem(AISearchProblem):
-    def __init__(self, startPlayer="X"):
-        self.currentState=AITicTocState(startPlayer)
-    def expand(self,state): #TODO
-        successors=[]
-        for pos in state.freeLocations():
-            newState=state.movePlayer(pos)
-            successors.append(newState)
-        return successors
-        
+from src.pyAISearch.pyAISearchProblem.pyProblem import AISearchProblem
+
+class MinMaxState:
+    def _init_(self, max_pos=1, min_pos=5, player="Max"):
+        self.max_pos = max_pos
+        self.min_pos = min_pos
+        self.player = player
+        self.depth = 0
+
+    def move_player(self, new_pos):
+        new_state = MinMaxState(self.max_pos, self.min_pos, self.player)
+        new_state.depth = self.depth + 1
+        if self.player == "Max":
+            new_state.max_pos = new_pos
+        else:
+            new_state.min_pos = new_pos
+        new_state.change_player()
+        return new_state
+
+    def change_player(self):
+        self.player = "Min" if self.player == "Max" else "Max"
+
+    def is_terminal(self):
+        return self.max_pos == 5 or self.min_pos == 1
+
+    def utility(self):
+        if self.max_pos == 5:
+            return float('inf')
+        if self.min_pos == 1:
+            return float('-inf')
+        d_max = abs(5 - self.max_pos)
+        d_min = abs(1 - self.min_pos)
+        return d_min - d_max
+
+    def get_possible_moves(self):
+        moves = []
+        current_pos = self.max_pos if self.player == "Max" else self.min_pos
+        opponent_pos = self.min_pos if self.player == "Max" else self.max_pos
+
+        for delta in [-1, 1]:
+            new_pos = current_pos + delta
+            if 1 <= new_pos <= 5:
+                if new_pos != opponent_pos:
+                    moves.append(new_pos)
+                else:
+                    jump_pos = new_pos + delta
+                    if 1 <= jump_pos <= 5 and jump_pos != current_pos:
+                        moves.append(jump_pos)
+        return moves
+
+    def _str_(self):
+        board = ["-"] * 5
+        board[self.max_pos - 1] = "A"
+        board[self.min_pos - 1] = "B"
+        return f"Board: {''.join(board)} | Player: {self.player} | Depth: {self.depth}"
+
+class MinMaxProblem:
+    def _init_(self):
+            self.current_state = MinMaxState(max_pos=1, min_pos=5, player="Max")
+
+    def expand(self, state):
+            successors = []
+            possible_moves = state.get_possible_moves()
+            for new_pos in possible_moves:
+                new_state = state.move_player(new_pos)
+                successors.append(new_state)
+            return successors
+

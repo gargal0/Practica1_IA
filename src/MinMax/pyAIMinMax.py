@@ -1,9 +1,5 @@
-'''
-Created on 25 Feb 2021
+from src.pyAISearch.pyAISearchSolver import AISearchSolver
 
-@author: Francisco Dominguez
-'''
-from src import AISearchSolver
 
 class AIMinMax(AISearchSolver):
     def __init__(self, problem):
