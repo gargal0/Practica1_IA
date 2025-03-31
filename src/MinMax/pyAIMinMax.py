@@ -8,8 +8,7 @@ from src import AISearchSolver
 class AIMinMax(AISearchSolver):
     def __init__(self, problem):
         super().__init__(problem)
-        #self.maxUpToNow=-10e100
-        #self.minUpToNow= 10e100
+
     def maxValue(self,state):
         maxUpToNow=-10e100
         if state.isTerminal():
