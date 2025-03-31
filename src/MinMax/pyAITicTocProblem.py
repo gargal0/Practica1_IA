@@ -71,9 +71,9 @@ class AITicTocState(object):
         self.player="X"
     def incDepth(self):
         self.depth+=1
-    def isTerminal(self):
+    def isTerminal(self): #TODO
         return self.win("X") or self.win("O") or self.boardFull()
-    def utility(self):
+    def utility(self): #TODO
         if self.win("X"): return  100
         if self.win("O"): return -100
         if self.boardFull(): return 0
@@ -88,7 +88,7 @@ class AITicTocState(object):
 class AITicTocProblem(AISearchProblem):
     def __init__(self, startPlayer="X"):
         self.currentState=AITicTocState(startPlayer)
-    def expand(self,state):
+    def expand(self,state): #TODO
         successors=[]
         for pos in state.freeLocations():
             newState=state.movePlayer(pos)
