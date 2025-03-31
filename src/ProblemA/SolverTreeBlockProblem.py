@@ -1,6 +1,6 @@
+from src.pyAISearch.pyAISearchCollections.pyAISearchCollection import AISearchCollection
 from src.pyAISearch.pyAISearchNode import AISearchNode
 from src.pyAISearch.pyAISearchSolver import AISearchSolver
-from src.pyAISearch.pyAISearchCollections.pyAISearchCollection import AISearchCollection
 
 
 class AISearchSolverTree(AISearchSolver):
