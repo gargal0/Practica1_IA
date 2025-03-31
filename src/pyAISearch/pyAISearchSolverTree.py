@@ -48,8 +48,6 @@ class AISearchSolverTree(AISearchSolver):
             print(self.currentNode) #Esto imprime todos los nodos posibles
             if self.problem.isGoal(currentState):
                 print("\n--------------------------------------------------------------\n")
-                #print("########### SOLUTION ##########")
-                #print("\n".join(str(state) for state in seen_nodes))
                 return True
             print("\n------------ Sucessors -----------\n")
             self.expand(self.currentNode)
