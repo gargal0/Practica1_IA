@@ -1,10 +1,11 @@
-"""
+'''
 Created on 25 Feb 2021
+
 @author: Francisco Dominguez
-"""
+'''
 from src.pyAISearch.pyAISearchSolver import AISearchSolver
 
-class AIMinMax(AISearchSolver):
+class AIExpectiMax(AISearchSolver):
     def __init__(self, problem):
         super().__init__(problem)
 
@@ -12,18 +13,22 @@ class AIMinMax(AISearchSolver):
         if state.depth >= 6 or state.isTerminal():  # Cortar en profundidad 6
             return state.utility()
 
-        maxUpToNow = float('-inf')
+        maxUpToNow = float('-inf')  # Inicializar localmente
         successors = self.problem.expand(state)
         for s in successors:
-            maxUpToNow = max(maxUpToNow, self.minValue(s))
+            maxUpToNow = max(maxUpToNow, self.expectiValue(s))
         return maxUpToNow
 
-    def minValue(self, state):
+    def expectiValue(self, state):
         if state.depth >= 6 or state.isTerminal():  # Cortar en profundidad 6
             return state.utility()
 
-        minUpToNow = float('inf')
         successors = self.problem.expand(state)
+        if not successors:
+            return state.utility()
+
+        expectation = 0
         for s in successors:
-            minUpToNow = min(minUpToNow, self.maxValue(s))
-        return minUpToNow
+            p = s.getProbability()
+            expectation += p * self.maxValue(s)
+        return expectation
