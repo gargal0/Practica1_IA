@@ -13,7 +13,6 @@ def chooseBestMove(mm, state, isMax):
     for pos in possibleMoves:
         newState = state.movePlayer(pos)
         value = mm.minValue(newState) if isMax else mm.maxValue(newState)
-        print(f"Evaluating move to {pos}: value = {value}")  # Debugging
         if isMax and value > bestValue:
             bestValue = value
             bestMove = pos
