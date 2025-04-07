@@ -27,7 +27,6 @@ def chooseBestMove(em, state, isMax):
         for pos in possibleMoves:
             newState = state.movePlayer(pos)
             value = em.expectiValue(newState)
-            print(f"Evaluating move to {pos}: value = {value}")
             values.append((pos, value))
         # Elegimos el primer movimiento (podríamos usar otra estrategia)
         bestMove, bestValue = values[0]
